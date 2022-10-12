@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/TimeFragment">
+
+    <fragment
+        android:id="@+id/TimeFragment"
+        android:name="com.gabriel.augusto.infocopa.TimesFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_time">
+
+        <action
+            android:id="@+id/escolher_time"
+            app:destination="@id/SelecaoFragment">
+            <argument
+                android:name="id_time"
+                android:defaultValue="1"
+                app:argType="integer" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/SelecaoFragment"
+        android:name="com.gabriel.augusto.infocopa.SelecaoFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_selecao">
+        <action
+            android:id="@+id/escolher_jogador"
+            app:destination="@id/JogadorFragment">
+            <argument
+                android:name="id_jogador"
+                android:defaultValue="1"
+                app:argType="integer" />
+        </action>
+        <argument
+            android:name="id_time"
+            android:defaultValue="1"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/JogadorFragment"
+        android:name="com.gabriel.augusto.infocopa.JogadorFragment"
+        android:label="fragment_jogador"
+        tools:layout="@layout/fragment_jogador">
+        <argument
+            android:name="id_jogador"
+            android:defaultValue="1"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>
