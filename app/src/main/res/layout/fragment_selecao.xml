@@ -5,39 +5,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:id="@+id/JogadorFragment"
     tools:context=".SelecaoFragment">
-
-    <Button
-        android:id="@+id/buttonBrazil"
-        android:layout_width="@dimen/buttonTimeWidth"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/brazilPrimary"
-        android:text="@string/brazil"
-        android:textColor="@color/brazilSecondary" />
-
-    <Button
-        android:id="@+id/buttonBrazil"
-        android:layout_width="@dimen/buttonTimeWidth"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/brazilPrimary"
-        android:text="@string/brazil"
-        android:textColor="@color/brazilSecondary" />
-
-    <Button
-        android:id="@+id/buttonBrazil"
-        android:layout_width="@dimen/buttonTimeWidth"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/brazilPrimary"
-        android:text="@string/brazil"
-        android:textColor="@color/brazilSecondary" />
-
-    <Button
-        android:id="@+id/buttonBrazil"
-        android:layout_width="@dimen/buttonTimeWidth"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/brazilPrimary"
-        android:text="@string/brazil"
-        android:textColor="@color/brazilSecondary" />
 
 
 </LinearLayout>

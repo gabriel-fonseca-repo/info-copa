@@ -1,6 +1,7 @@
 package com.gabriel.augusto.infocopa
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,22 @@ class JogadorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val bundle = arguments;
+
+        if (bundle == null) {
+            Log.d("impossivel", "eita")
+            return
+        }
+
+        val args = JogadorFragmentArgs.fromBundle(bundle)
+
+        val idJogador = args.idJogador
+
+        println(idJogador)
+
+        val db = DB(view.context, null);
+
     }
 
     override fun onDestroyView() {

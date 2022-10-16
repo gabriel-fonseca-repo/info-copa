@@ -1,5 +1,6 @@
 package com.gabriel.augusto.infocopa
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -10,29 +11,44 @@ class DB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        val query = ("CREATE TABLE " + TBTimes.TABLE_TIMES + " ("
-                + TBTimes.ID_TIME_COL + " INTEGER PRIMARY KEY, " +
-                TBTimes.NOME_TIME_COL + " TEXT)")
+    }
 
-        val query2 = ("CREATE TABLE " + TBJogadores.TABLE_JOGADORES + " ("
-                + TBJogadores.ID_JOGADOR_COL + " INTEGER PRIMARY KEY, " +
+    fun init() {
+        val query = ("CREATE TABLE " + TBTimes.TABLE_TIMES + " (" +
+                TBTimes.ID_TIME_COL + " INTEGER PRIMARY KEY, " +
+                TBTimes.NOME_TIME_COL + " TEXT, " +
+                TBTimes.COR_TIME_PRIMARIA_COL + " INTEGER, " +
+                TBTimes.COR_TIME_SECUNDARIA_COL + " INTEGER)")
+
+        val query2 = ("CREATE TABLE " + TBJogadores.TABLE_JOGADORES + " (" +
+                TBJogadores.ID_JOGADOR_COL + " INTEGER PRIMARY KEY, " +
                 TBJogadores.NOME_JOGADOR_COL + " TEXT," +
-                TBJogadores.ID_TIME_COL + " INTEGER" + ")")
+                TBJogadores.ID_TIME_COL + " INTEGER)")
 
-        db.execSQL(query)
-        db.execSQL(query2)
+        val db = this.writableDatabase
+
+        with(db) {
+            execSQL("DROP TABLE IF EXISTS " + TBJogadores.TABLE_JOGADORES)
+            execSQL("DROP TABLE IF EXISTS " + TBTimes.TABLE_TIMES)
+
+            execSQL(query)
+            execSQL(query2)
+        }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
         db.execSQL("DROP TABLE IF EXISTS " + TBJogadores.TABLE_JOGADORES)
+        db.execSQL("DROP TABLE IF EXISTS " + TBTimes.TABLE_TIMES)
         onCreate(db)
     }
 
-    fun addTime(idTime: Int, nomeTime: String) {
+    fun addTime(idTime: Int, nomeTime: String, corTimePrimaria: Int, corTimeScundaria: Int) {
         val values = ContentValues()
 
         values.put(TBTimes.NOME_TIME_COL, nomeTime)
         values.put(TBTimes.ID_TIME_COL, idTime)
+        values.put(TBTimes.COR_TIME_PRIMARIA_COL, corTimePrimaria)
+        values.put(TBTimes.COR_TIME_SECUNDARIA_COL, corTimeScundaria)
 
         val db = this.writableDatabase
 
@@ -50,10 +66,147 @@ class DB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         val db = this.writableDatabase
 
-        db.insert(TBTimes.TABLE_TIMES, null, values)
+        db.insert(TBJogadores.TABLE_JOGADORES, null, values)
 
         db.close()
     }
+
+    @SuppressLint("Range", "Recycle")
+    fun getJogadorByTime(idTime: Int): Array<Jogador> {
+
+        val db = this.readableDatabase
+
+        var arrayJogadores = arrayOf<Jogador>()
+
+        with(db) {
+            val cursor = rawQuery(
+                "SELECT * FROM " + TBJogadores.TABLE_JOGADORES + " WHERE " + TBJogadores.ID_TIME_COL + " = " + idTime,
+                null
+            )
+
+            while (cursor.moveToNext()) {
+                val jogador = Jogador(
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.NOME_JOGADOR_COL)),
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_JOGADOR_COL)),
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_TIME_COL))
+                )
+                arrayJogadores = arrayJogadores.plus(jogador)
+            }
+        }
+        db.close()
+
+        return arrayJogadores
+
+    }
+
+    @SuppressLint("Range")
+    fun getJogadorById(idJogador: Int): Jogador {
+
+        val db = this.readableDatabase
+
+        var arrayJogadores = arrayOf<Jogador>()
+
+        with(db) {
+            val cursor = rawQuery(
+                "SELECT * FROM " + TBJogadores.TABLE_JOGADORES + " WHERE " + TBJogadores.ID_JOGADOR_COL + " = " + idJogador,
+                null
+            )
+
+            while (cursor.moveToNext()) {
+                val jogador = Jogador(
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.NOME_JOGADOR_COL)),
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_JOGADOR_COL)),
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_TIME_COL))
+                )
+                arrayJogadores = arrayJogadores.plus(jogador)
+            }
+        }
+        db.close()
+
+        return arrayJogadores[0]
+    }
+
+    @SuppressLint("Range", "Recycle")
+    fun getTimeByNome(nomeTime: String): Time {
+
+        val db = this.readableDatabase
+
+        val cursor = db.rawQuery(
+            "SELECT * FROM " + TBTimes.TABLE_TIMES + " WHERE " + TBTimes.NOME_TIME_COL + " = " + nomeTime,
+            null
+        )
+
+        var arrayTimes = arrayOf<Time>()
+
+        while (cursor.moveToNext()) {
+            val time = Time(
+                cursor.getString(cursor.getColumnIndex(TBTimes.NOME_TIME_COL)),
+                cursor.getInt(cursor.getColumnIndex(TBTimes.ID_TIME_COL)),
+                cursor.getInt(cursor.getColumnIndex(TBTimes.COR_TIME_PRIMARIA_COL)),
+                cursor.getInt(cursor.getColumnIndex(TBTimes.COR_TIME_SECUNDARIA_COL))
+            )
+            arrayTimes = arrayTimes.plus(time)
+        }
+
+        db.close()
+
+        return arrayTimes[0]
+
+    }
+
+    @SuppressLint("Range")
+    fun getTimeById(idTime: Int): Time {
+
+        val db = this.readableDatabase
+
+        val cursor = db.rawQuery(
+            "SELECT * FROM " + TBTimes.TABLE_TIMES + " WHERE " + TBTimes.ID_TIME_COL + " = " + idTime,
+            null
+        )
+
+        var arrayTimes = arrayOf<Time>()
+
+        while (cursor.moveToNext()) {
+            val time = Time(
+                cursor.getString(cursor.getColumnIndex(TBTimes.NOME_TIME_COL)),
+                cursor.getInt(cursor.getColumnIndex(TBTimes.ID_TIME_COL)),
+                cursor.getInt(cursor.getColumnIndex(TBTimes.COR_TIME_PRIMARIA_COL)),
+                cursor.getInt(cursor.getColumnIndex(TBTimes.COR_TIME_SECUNDARIA_COL))
+            )
+            arrayTimes = arrayTimes.plus(time)
+        }
+
+        db.close()
+
+        return arrayTimes[0]
+
+    }
+
+    @SuppressLint("Range", "Recycle")
+    fun getTimes(): Array<Time> {
+
+        val db = this.readableDatabase
+
+        var arrayTimes = arrayOf<Time>()
+
+        val cursor = db.rawQuery("SELECT * FROM " + TBTimes.TABLE_TIMES, null)
+
+        while (cursor.moveToNext()) {
+            val time = Time(
+                cursor.getString(cursor.getColumnIndex(TBTimes.NOME_TIME_COL)),
+                cursor.getInt(cursor.getColumnIndex(TBTimes.ID_TIME_COL)),
+                cursor.getInt(cursor.getColumnIndex(TBTimes.COR_TIME_PRIMARIA_COL)),
+                cursor.getInt(cursor.getColumnIndex(TBTimes.COR_TIME_SECUNDARIA_COL))
+            )
+            arrayTimes = arrayTimes.plus(time)
+        }
+
+        db.close()
+
+        return arrayTimes
+
+    }
+
 
     companion object {
 
@@ -67,9 +220,9 @@ class DB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         const val TABLE_JOGADORES = "jogadores"
 
-        const val ID_JOGADOR_COL = "id"
+        const val ID_JOGADOR_COL = "idJogador"
 
-        const val NOME_JOGADOR_COL = "nome"
+        const val NOME_JOGADOR_COL = "nomeJogador"
 
         const val ID_TIME_COL = "idTime"
     }
@@ -78,9 +231,13 @@ class DB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         const val TABLE_TIMES = "times"
 
-        const val ID_TIME_COL = "id"
+        const val ID_TIME_COL = "idTime"
 
         const val NOME_TIME_COL = "nomeTime"
+
+        const val COR_TIME_PRIMARIA_COL = "corTimePrimaria"
+
+        const val COR_TIME_SECUNDARIA_COL = "corTimeSecundaria"
 
     }
 }

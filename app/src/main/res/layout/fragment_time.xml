@@ -5,38 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".TimesFragment">
-
-    <Button
-        android:id="@+id/buttonBrazil"
-        android:layout_width="@dimen/buttonTimeWidth"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/brazilPrimary"
-        android:text="@string/brazil"
-        android:textColor="@color/brazilSecondary" />
-
-    <Button
-        android:id="@+id/buttonServia"
-        android:layout_width="@dimen/buttonTimeWidth"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/serviaPrimary"
-        android:text="@string/servia"
-        android:textColor="@color/serviaSecondary" />
-
-    <Button
-        android:id="@+id/buttonSuica"
-        android:layout_width="@dimen/buttonTimeWidth"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/swissPrimary"
-        android:text="@string/sui_a"
-        android:textColor="@color/swissSecondary" />
-
-    <Button
-        android:id="@+id/buttonCamaroes"
-        android:layout_width="@dimen/buttonTimeWidth"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/camaroesPrimary"
-        android:text="@string/camar_es"
-        android:textColor="@color/camaroesSecondary" />
+    tools:context=".TimesFragment"
+    android:id="@+id/TimeFragment">
 
 </LinearLayout>

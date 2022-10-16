@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.gabriel.augusto.infocopa.databinding.FragmentSelecaoBinding
@@ -35,10 +36,24 @@ class SelecaoFragment : Fragment() {
 
         val args = SelecaoFragmentArgs.fromBundle(bundle)
 
-        println(args.idTime)
+        val db = DB(view.context, null);
 
-        binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.escolher_jogador)
+        val jogadores = db.getJogadorByTime(args.idTime)
+        val time = db.getTimeById(args.idTime)
+
+        var button: Button;
+
+        jogadores.forEach { e ->
+            button = Button(view.context)
+            with(button) {
+                setOnClickListener {
+                    findNavController().navigate(SelecaoFragmentDirections.escolherJogador(e.idJogador))
+                }
+                text = e.nomeJogador
+                setBackgroundColor(view.context.getColor(time.corTimePrimaria))
+                setTextColor(view.context.getColor(time.corTimeSecundaria))
+            }
+            binding.JogadorFragment.addView(button)
         }
     }
 

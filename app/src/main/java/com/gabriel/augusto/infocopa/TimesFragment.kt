@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.gabriel.augusto.infocopa.databinding.FragmentTimeBinding
@@ -25,19 +26,24 @@ class TimesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonBrazil.setOnClickListener {
-            findNavController().navigate(TimesFragmentDirections.escolherTime(1))
-        }
-        binding.buttonServia.setOnClickListener {
-            findNavController().navigate(TimesFragmentDirections.escolherTime(2))
-        }
-        binding.buttonSuica.setOnClickListener {
-            findNavController().navigate(TimesFragmentDirections.escolherTime(3))
-        }
-        binding.buttonCamaroes.setOnClickListener {
-            findNavController().navigate(TimesFragmentDirections.escolherTime(4))
-        }
+        var button: Button;
 
+        val db = DB(view.context, null);
+
+        val times = db.getTimes()
+
+        times.forEach { e ->
+            button = Button(view.context)
+            with(button) {
+                setOnClickListener {
+                    findNavController().navigate(TimesFragmentDirections.escolherTime(e.idTime))
+                }
+                text = e.nome
+                setBackgroundColor(view.context.getColor(e.corTimePrimaria))
+                setTextColor(view.context.getColor(e.corTimeSecundaria))
+            }
+            binding.TimeFragment.addView(button)
+        }
     }
 
     override fun onDestroyView() {
