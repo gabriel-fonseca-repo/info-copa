@@ -1,11 +1,13 @@
 package com.gabriel.augusto.infocopa
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.gabriel.augusto.infocopa.databinding.FragmentJogadorBinding
@@ -24,10 +26,11 @@ class JogadorFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bundle = arguments;
+        val bundle = arguments
 
         if (bundle == null) {
             Log.d("impossivel", "eita")
@@ -40,7 +43,7 @@ class JogadorFragment : Fragment() {
 
         println(idJogador)
 
-        val db = DB(view.context, null);
+        val db = DB(view.context, null)
 
         val jogador = db.getJogadorById(idJogador)
 
@@ -49,9 +52,14 @@ class JogadorFragment : Fragment() {
         val posicao: TextView = view.findViewById(R.id.textView3) as TextView
         val titulos: TextView = view.findViewById(R.id.textView4) as TextView
         val clubes: TextView = view.findViewById(R.id.textView5) as TextView
+        val imagem: ImageView = view.findViewById(R.id.imagem) as ImageView
 
-        nome.setText(jogador.nomeJogador)
-        idadeJogador.setText(jogador.idade)
+        nome.text = jogador.nomeJogador
+        idadeJogador.text = jogador.idade.toString()
+        posicao.text = jogador.posicao
+        titulos.text = jogador.titulos
+        clubes.text = jogador.clubes
+        imagem.setImageDrawable(view.context.getDrawable(jogador.fotoJogador.toInt()))
 
     }
 
