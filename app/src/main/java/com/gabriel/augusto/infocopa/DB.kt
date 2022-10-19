@@ -57,12 +57,18 @@ class DB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         db.close()
     }
 
-    fun addJogador(idJogador: Int, nomeJogador: String, idTime: Int) {
+    fun addJogador(idJogador: Int, nomeJogador: String, idTime: Int, titulos: String, clubes: String, idade: Int, participacoesCopa: Int, posicao: String, fotoJogador: String) {
         val values = ContentValues()
 
         values.put(TBJogadores.ID_JOGADOR_COL, idJogador)
         values.put(TBJogadores.NOME_JOGADOR_COL, nomeJogador)
         values.put(TBJogadores.ID_TIME_COL, idTime)
+        values.put(TBJogadores.CLUBES_JOGADOR_COL, clubes)
+        values.put(TBJogadores.IDADE_JOGADOR_COL, idade)
+        values.put(TBJogadores.PARTICIPACOES_COL, participacoesCopa)
+        values.put(TBJogadores.POS_JOGADOR_COL, posicao)
+        values.put(TBJogadores.TITULOS_JOGADOR_COL, titulos)
+        values.put(TBJogadores.STRING_FOTO_COL, fotoJogador)
 
         val db = this.writableDatabase
 
@@ -88,7 +94,14 @@ class DB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 val jogador = Jogador(
                     cursor.getString(cursor.getColumnIndex(TBJogadores.NOME_JOGADOR_COL)),
                     cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_JOGADOR_COL)),
-                    cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_TIME_COL))
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_TIME_COL)),
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.IDADE_JOGADOR_COL)),
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.POS_JOGADOR_COL)),
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.PARTICIPACOES_COL)),
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.TITULOS_JOGADOR_COL)),
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.CLUBES_JOGADOR_COL)),
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.STRING_FOTO_COL))
+
                 )
                 arrayJogadores = arrayJogadores.plus(jogador)
             }
@@ -116,7 +129,14 @@ class DB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 val jogador = Jogador(
                     cursor.getString(cursor.getColumnIndex(TBJogadores.NOME_JOGADOR_COL)),
                     cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_JOGADOR_COL)),
-                    cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_TIME_COL))
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.ID_TIME_COL)),
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.IDADE_JOGADOR_COL)),
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.POS_JOGADOR_COL)),
+                    cursor.getInt(cursor.getColumnIndex(TBJogadores.PARTICIPACOES_COL)),
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.TITULOS_JOGADOR_COL)),
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.CLUBES_JOGADOR_COL)),
+                    cursor.getString(cursor.getColumnIndex(TBJogadores.STRING_FOTO_COL))
+
                 )
                 arrayJogadores = arrayJogadores.plus(jogador)
             }
@@ -225,6 +245,18 @@ class DB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val NOME_JOGADOR_COL = "nomeJogador"
 
         const val ID_TIME_COL = "idTime"
+
+        const val POS_JOGADOR_COL = "posicao"
+
+        const val TITULOS_JOGADOR_COL = "titulos"
+
+        const val CLUBES_JOGADOR_COL = "clubes"
+
+        const val IDADE_JOGADOR_COL = "idade"
+
+        const val PARTICIPACOES_COL = "participacoes"
+
+        const val STRING_FOTO_COL = "fotoJogador"
     }
 
     object TBTimes {
