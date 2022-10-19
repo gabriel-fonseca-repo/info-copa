@@ -23,7 +23,13 @@ class DB(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val query2 = ("CREATE TABLE " + TBJogadores.TABLE_JOGADORES + " (" +
                 TBJogadores.ID_JOGADOR_COL + " INTEGER PRIMARY KEY, " +
                 TBJogadores.NOME_JOGADOR_COL + " TEXT," +
-                TBJogadores.ID_TIME_COL + " INTEGER)")
+                TBJogadores.ID_TIME_COL + " INTEGER," +
+                TBJogadores.IDADE_JOGADOR_COL + "INTEGER," +
+                TBJogadores.PARTICIPACOES_COL + "INTEGER," +
+                TBJogadores.CLUBES_JOGADOR_COL + "TEXT," +
+                TBJogadores.TITULOS_JOGADOR_COL + "TEXT" +
+                TBJogadores.POS_JOGADOR_COL + "TEXT" +
+                TBJogadores.STRING_FOTO_COL + "TEXT")
 
         val db = this.writableDatabase
 
